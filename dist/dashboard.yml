@@ -1,0 +1,198 @@
+title: ${title}
+author_handle: ${author}
+created_at: ${date}
+layout_type: ordered
+reflow_type: fixed
+widgets:
+  - definition:
+      title: Code Quality Metrics from SonarQube
+      background_color: blue
+      show_title: true
+      type: group
+      layout_type: ordered
+      widgets:
+        - definition:
+            title: Code Coverage
+            title_size: '16'
+            title_align: left
+            type: query_value
+            requests:
+              - response_format: scalar
+                queries:
+                  - name: query1
+                    data_source: metrics
+                    query: avg:${coverage_metric_name}{sonarqube:coverage}
+                    aggregator: last
+                conditional_formats:
+                  - comparator: '>'
+                    value: 85
+                    palette: white_on_green
+                  - comparator: '<'
+                    value: 85
+                    palette: white_on_yellow
+                  - comparator: '<='
+                    value: 69
+                    palette: white_on_red
+                formulas:
+                  - formula: query1
+            autoscale: true
+            precision: 2
+            custom_links:
+              - label: View Report
+                link: ${sonarBaseUrl}/component_measures?metric=coverage&view=list&id=${componentName}
+            timeseries_background:
+              type: bars
+              yaxis: {}
+          layout:
+            x: 0
+            'y': 0
+            width: 2
+            height: 2
+        - definition:
+            title: Code Smells
+            title_size: '16'
+            title_align: left
+            type: query_value
+            requests:
+              - response_format: scalar
+                queries:
+                  - name: query1
+                    data_source: metrics
+                    query: avg:${smells_metric_name}{sonarqube:code_smells}
+                    aggregator: last
+                conditional_formats:
+                  - comparator: '<='
+                    value: 25
+                    palette: white_on_green
+                  - comparator: '>'
+                    value: 25
+                    palette: white_on_yellow
+                  - comparator: '>'
+                    value: 50
+                    palette: white_on_red
+                formulas:
+                  - formula: query1
+            autoscale: true
+            custom_unit: issues
+            precision: 2
+            custom_links:
+              - label: View Report
+                link: ${sonarBaseUrl}/project/issues?resolved=false&scopes=MAIN&type=CODE_SMELL&id=${componentName}
+          layout:
+            x: 2
+            'y': 0
+            width: 2
+            height: 2
+        - definition:
+            title: Vulnerabilities
+            title_size: '16'
+            title_align: left
+            type: query_value
+            requests:
+              - response_format: scalar
+                queries:
+                  - name: query1
+                    data_source: metrics
+                    query: avg:${vulnerabilities_metric_name}{sonarqube:vulnerabilities}
+                    aggregator: last
+                conditional_formats:
+                  - comparator: '='
+                    value: 0
+                    palette: white_on_green
+                  - comparator: '>'
+                    value: 0
+                    palette: white_on_red
+                formulas:
+                  - formula: query1
+            autoscale: true
+            custom_unit: issues
+            precision: 0
+            custom_links:
+              - label: View Report
+                link: ${sonarBaseUrl}/project/issues?resolved=false&types=VULNERABILITY&id=${componentName}
+          layout:
+            x: 4
+            'y': 0
+            width: 2
+            height: 2
+        - definition:
+            title: Security Hotspots
+            title_size: '16'
+            title_align: left
+            type: query_value
+            requests:
+              - response_format: scalar
+                queries:
+                  - name: query1
+                    data_source: metrics
+                    query: avg:${security_hotspots_metric_name}{sonarqube:security_hotspots}
+                    aggregator: last
+                conditional_formats:
+                  - comparator: '='
+                    value: 0
+                    palette: white_on_green
+                  - comparator: '>'
+                    value: 0
+                    palette: white_on_red
+                formulas:
+                  - formula: query1
+            autoscale: true
+            custom_unit: issues
+            precision: 2
+            custom_links:
+              - label: View Report
+                link: ${sonarBaseUrl}/security_hotspots?id=${componentName}
+            timeseries_background:
+              type: area
+          layout:
+            x: 6
+            'y': 0
+            width: 2
+            height: 2 
+        - definition:  
+            title: Duplicated Lines Density
+            title_size: '16'
+            title_align: left
+            type: query_value
+            requests:
+              - response_format: scalar
+                queries:
+                  - name: query1
+                    data_source: metrics
+                    query: avg:${duplines_density_metric_name}{sonarqube:duplicated_lines_density}
+                    aggregator: last
+                conditional_formats:
+                  - comparator: '<='
+                    value: 10
+                    palette: white_on_green
+                  - comparator: '<='
+                    value: 20
+                    palette: custom_bg
+                    custom_bg_color: '#0000ff'
+                  - comparator: '<='
+                    value: 49
+                    palette: white_on_yellow
+                  - comparator: '>='
+                    value: 50
+                    palette: white_on_red
+                formulas:
+                  - formula: query1
+            autoscale: true
+            precision: 2
+            custom_links:
+              - label: View Report
+                link: ${sonarBaseUrl}/component_measures?metric=duplicated_lines_density&id=${componentName}
+            timeseries_background:
+              yaxis: {}
+              type: bars
+          layout:
+            x: 8
+            'y': 0
+            width: 4
+            height: 2
+            is_column_break: true
+    layout:
+      x: 0
+      'y': 9
+      width: 12
+      height: 6

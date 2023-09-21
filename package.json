@@ -1,0 +1,23 @@
+{
+  "name": "dd-tmdashboard-gen",
+  "version": "1.0.0",
+  "description": "A custom action that automatically generates tech metrics dashboard on Datadog",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "ncc build src/index.ts -o dist -a -s --license LICENSE.md"
+  },
+  "keywords": [],
+  "author": "Yauri Attamimi <https://yauritux.link>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.5",
+    "@types/node": "^20.5.4",
+    "@vercel/ncc": "^0.36.1",
+    "js-yaml": "^4.1.0",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "axios": "^1.4.0"
+  }
+}

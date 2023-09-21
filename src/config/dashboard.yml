@@ -1,0 +1,101 @@
+title: ${title}
+author_handle: ${author}
+created_at: ${date}
+layout_type: ordered
+reflow_type: fixed
+widgets:
+  - definition:
+      title: Application / Service Core Metrics
+      background_color: vivid_green
+      show_title: true
+      type: group
+      layout_type: ordered
+      widgets:
+        - definition:
+            title: Uptime
+            title_size: '16'
+            title_align: left
+            type: query_value
+            requests:
+              - response_format: scalar
+                queries:
+                  - name: query1
+                    data_source: metrics
+                    query: avg:container.uptime{application:kubernetes-${env}-dss,aws:eks:cluster-name:${env}-dss,service:${serviceName},environment:${env}}
+                    aggregator: avg
+                formulas:
+                  - formula: query1
+            autoscale: true
+            precision: 1
+          layout:
+            x: 0
+            'y': 0
+            width: 2
+            height: 2
+        - definition:
+            title: CPU Usages
+            title_size: '16'
+            title_align: left
+            show_legend: false
+            legend_layout: auto
+            legend_columns:
+              - avg
+              - min
+              - max
+              - value
+              - sum
+            type: timeseries
+            requests:
+              - response_format: timeseries
+                queries:
+                  - name: query1
+                    data_source: metrics
+                    query: avg:container.cpu.usage{service:${serviceName},env:${env}}
+                formulas:
+                  - formula: query1
+                style:
+                    palette: dog_classic
+                    line_type: solid
+                    line_width: normal
+                display_type: line
+          layout:
+            x: 2
+            'y': 0
+            width: 5
+            height: 2
+        - definition:
+            title: Memory Usages
+            title_size: '16'
+            title_align: left
+            show_legend: true
+            legend_layout: auto
+            legend_columns:
+              - avg
+              - min
+              - max
+              - value
+              - sum
+            type: timeseries
+            requests:
+              - formulas:
+                  - formula: query1
+                queries:
+                  - name: query1
+                    data_source: metrics
+                    query: avg:container.memory.usage{service:${serviceName},env:${env}}
+                response_format: timeseries
+                style:
+                  palette: dog_classic
+                  line_type: solid
+                  line_width: normal
+                display_type: line
+          layout:
+            x: 7
+            'y': 0
+            width: 5
+            height: 2
+    layout:
+      x: 0
+      'y': 0
+      width: 12
+      height: 9

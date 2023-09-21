@@ -1,0 +1,30 @@
+name: 'source-code-metric-dashboard-generator'
+description: 'Configure and build source code metrics dashboard for Datadog'
+inputs:
+  dashboard-title:
+    description: 'Your Dashboard Title. This is supposed to be unique to avoid any dashboard being created twice.'
+    required: true
+  dashboard-author:
+    description: 'The Author of Dashboard'
+    required: true
+  sonar-base-url:
+    description: 'Your Sonarqube URL'
+    required: true
+  component-name:
+    description: 'component name (could be a service / project name)'
+    required: true
+  dd-base-url:
+    description: 'Your Datadog URL'
+    required: true
+  dd-api-key:
+    description: 'DataDog API KEY'
+    required: true
+  dd-application-key:
+    description: 'Datadog Application Key'
+    required: true
+outputs:
+  result:
+    description: 'Dashboard creation status. 200 means OK'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
