@@ -46,7 +46,7 @@ As for collecting those code metrics from your Sonarqube to Datadog, please use 
 ## Example Usage
 
 ```yaml
-uses: yauritux/scm-dd-creator@v1.0
+uses: yauritux/scm-dd-creator@v1.1
 with:
   sonar-base-url: ${{ secrets.DD_SONAR_URL }}
   dd-base-url: ${{ secrets.DD_BASE_URL }}
